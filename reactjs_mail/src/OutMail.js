@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import './App.css'
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap'
 
-const Mailgun = require('mailgun.js')
+const Mailgun = require('mailgun-js')
 
-const api_key = 'key-48be13739a33970d539fc85e0b989f2d'
-// Your domain, from the Mailgun Control Panel
-const domain = 'sandboxb4fca9421b034123b71a4540218869eb.mailgun.org'
-// Your sending email address
+
 const from_who = 'ripleyoriginals@gmail.com'
 
 class App extends Component {
@@ -75,15 +72,17 @@ class OutMail extends Component {
       // The email to contact
       to: email,
       html: `<html>${body}</html>`,
-      attachment: fp,
-      'h:Content-Type': 'multipart/form-data'
+      attachment: fp
     }
     console.log(`This is the attachments variable: ${attachments}`)
-    const mg = Mailgun.client({ username: 'api', key: api_key })
-    mg.messages
-      .create(domain, data)
-      .then(msg => this.resetForm(msg))
-      .catch(err => console.log(err))
+    const mg = new Mailgun({ apiKey: api_key, domain: domain })
+    mg.messages().send(data, (error) => {
+      if (error) {
+        console.log('Received the following error: ', error)
+      } else {
+        this.resetForm(body)
+      }
+    })
   }
 
   fileSelected (e) {
@@ -126,13 +125,13 @@ class OutMail extends Component {
             />
           </FormGroup>
 
-          {/* <input
+          <input
             className='filechooser'
             type='file'
             ref={this.fileInput}
             placeholder='Add Attachments'
             onChange={this.fileSelected}
-          /> */}
+          />
 
           <Button type='submit'>send out-mail</Button>
         </Form>
@@ -142,14 +141,9 @@ class OutMail extends Component {
 }
 
 class InMail extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
+  render () {
+    return <div />
   }
 }
-
 
 export default App
