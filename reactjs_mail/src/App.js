@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import { Form, FormGroup, FormControl, Button } from 'react-bootstrap'
+import axios from 'axios';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor () {
+    super()
+    this.state = { email: [], body: '', attachments: [] }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+  render () {
+    return (
+      <div className='App'>
+        <header className='App-header'>
+          <h1>out-mail</h1>
+        </header>
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <FormControl
+              type='email'
+              name='email'
+              placeholder='Add recipients email'
+              style={{ cols: '30', rows: '2' }}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <FormControl
+              type='textarea'
+              name='body'
+              placeholder='Add body text'
+              style={{ cols: '30', height: '15vh' }}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+
+          <input className='filechooser' type='file' name='attachments' />
+
+          <Button type='submit'>send out-mail</Button>
+        </Form>
+      </div>
+    )
+  }
+
+  handleChange (e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  async handleSubmit (e) {
+    e.preventDefault()
+
+    const { email, body, attachments } = this.state
+    const form = await axios.post("/api/" + encodeURIComponent("ripleyoriginals@gmail.com"), {
+      email,
+      body,
+      attachments
+    })
+  }
 }
 
-export default App;
+export default App
