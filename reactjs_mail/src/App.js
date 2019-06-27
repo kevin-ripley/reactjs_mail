@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import './App.css'
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap'
-import axios from 'axios';
+import axios from 'axios'
+
+const Mailgun = require('mailgun.js')
+
 
 class App extends Component {
   constructor () {
@@ -48,16 +51,20 @@ class App extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  async handleSubmit (e) {
+  handleSubmit (e) {
     e.preventDefault()
-
     const { email, body, attachments } = this.state
-    const form = await axios.post("/api/" + encodeURIComponent("ripleyoriginals@gmail.com"), {
-      email,
-      body,
-      attachments
-    })
+
+    const data = {
+      // Specify email data
+      from: from_who,
+      // The email to contact
+      to: email,
+      text: body,
+      attachment: attachments
+    }
+    const mg = Mailgun.client({ username: 'api', key: api_key })
+    mg.messages.create(domain, data).then(msg => console.log(msg)).catch(err => console.log(err))
   }
 }
-
 export default App
