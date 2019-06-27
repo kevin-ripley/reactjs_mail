@@ -1,47 +1,73 @@
-.App {
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 10;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 19%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 
 .App-header {
   background-color: white;
-  max-height: 20vh;
+  max-height: 60vh;
   text-align: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #a7a9aa;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .form-inline {
   width: 100%;
-  
 }
+
 
 .form-group {
   width: 90%;
-  height: auto;
+  height: 50%;
 }
+
 .btn {
-  width: 18vh;
-  height: 5vh;
-  margin-top: 2vh;
-  margin-right: 22vh;
-  margin-left: 30vh;
+  width: 20vh;
+  height: 6vh;
+  margin-top: 25%;
+  margin-left: 70%;
+  margin-right: 5%;
   border: outset;
   align-content: right;
+  font-size: 2.5vh;
 }
-
-
+/* 
 .filechooser {
-  
   margin-left: 2vh;
 }
-
+*/
 .form-control {
-  width: 50% !important;
+  width: 150% !important;
   border-top-style: none;
   border-right-style: none;
   border-bottom-style: outset;
   border-left-style: none;
   font-size: calc(4px + 2vmin);
-}
+} 
