@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import './App.css'
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap'
 
-const Mailgun = require('mailgun-js')
+const Mailgun = require('mailgun.js')
 
-
-const from_who = 'ripleyoriginals@gmail.com'
+const api_key = 'Your Mailgun API Key'
+const from_who = 'Who you would like the mailing to be from'
+const domain = 'Mailgun Domain'
 
 class App extends Component {
   constructor () {
@@ -15,14 +16,14 @@ class App extends Component {
   render () {
     return (
       <div>
-        <div class='split left'>
-          <div class='centered'>
+        <div className='split left'>
+          <div className='centered'>
             <InTitle />
             <InMail />
           </div>
         </div>
-        <div class='split right'>
-          <div class='centered'>
+        <div className='split right'>
+          <div className='centered'>
             <OutTitle />
             <OutMail
               email={this.state.email}
@@ -72,17 +73,15 @@ class OutMail extends Component {
       // The email to contact
       to: email,
       html: `<html>${body}</html>`,
-      attachment: fp
+      attachment: fp,
+      'h:Content-Type': 'multipart/form-data'
     }
     console.log(`This is the attachments variable: ${attachments}`)
-    const mg = new Mailgun({ apiKey: api_key, domain: domain })
-    mg.messages().send(data, (error) => {
-      if (error) {
-        console.log('Received the following error: ', error)
-      } else {
-        this.resetForm(body)
-      }
-    })
+    const mg = Mailgun.client({ username: 'api', key: api_key })
+    mg.messages
+      .create(domain, data)
+      .then(msg => this.resetForm(msg))
+      .catch(err => console.log(err))
   }
 
   fileSelected (e) {
@@ -141,9 +140,14 @@ class OutMail extends Component {
 }
 
 class InMail extends Component {
-  render () {
-    return <div />
+  render() {
+    return (
+      <div>
+        
+      </div>
+    )
   }
 }
+
 
 export default App
