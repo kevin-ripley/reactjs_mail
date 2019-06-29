@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
 import './App.css'
 import { Form, FormGroup, FormControl, Button } from 'react-bootstrap'
-
+import {key} from './mailgun-key';
 const Mailgun = require('mailgun.js')
 
-const api_key = 'Your Mailgun API Key'
-const from_who = 'Who you would like the mailing to be from'
-const domain = 'Mailgun Domain'
+// const api_key = 'Your Mailgun API Key'
+// const from_who = 'Who you would like the mailing to be from'
+// const domain = 'Mailgun Domain'
+
+const api_key = key
+// Your domain, from the Mailgun Control Panel
+const domain = 'sandboxb4fca9421b034123b71a4540218869eb.mailgun.org'
+// Your sending email address
+const from_who = 'ripleyoriginals@gmail.com'
+
 
 class App extends Component {
   constructor () {
